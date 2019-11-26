@@ -66,10 +66,10 @@ if(!isset($_SESSION['ologin']))
                         <a href="officerhome.php"><i class="glyphicon glyphicon-thumbs-up"></i> Admin Home</a>
                     </li>
 					
-					<li class="active">
+					<li>
                         <a href="addsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> Add Suspect</a>
                     </li>
-					<li>
+					<li class="active">
                         <a href="viewsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> View Suspect(s)</a>
                     </li>
 					
@@ -87,37 +87,41 @@ if(!isset($_SESSION['ologin']))
         <div id="page-wrapper">
 
             <div class="container-fluid">
+
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
 						<p style="width:100%;">
 						<center>
-						<form action="addsuspectconfirm.php" method="post">
-						<fieldset style="width:80%;">
-						<legend><h1>Add Suspect Details</h1></legend>
-						<p>
-						<legend>Basic Suspect Details</legend>
-						<form action="addsuspectconfirm.php" method="post">
-						enter your full name<br/>
-						<input style="width:60%;text-align:center;" type="text" name="fullname" placeholder="Full name goes here" required/><br/>
-						enter your phone number<br/>
-						<input style="width:60%;text-align:center;" type="text" name="phonenumber" placeholder="phone number goes here" required/><br/>
-						enter your nationality goes here<br/>
-						<input style="width:60%;text-align:center;" type="text" name="nationality" placeholder="nationality goes here" required/><br/>
-						suspect image goes here<br/>
-						<input style="width:60%;text-align:center;" type="file" name="simage"/><br/>
-						Select suspect identifier<br/>
-						<select id="identifier" style="width:60%;text-align:center;"  name="suspectidentifier" required>
-						<option>Kenyan National Id</option>
-						<option>International Passport</option>
-						</select><br/>
-						Enter your identifier number<br>
-						<input style="width:60%;text-align:center;" type="text" name="identifierno" placeholder="identifier number goes here" required/><br/><br/>
-						<input style="width:30%;text-align:center;background-color:green;color:white;" type="submit" value="Add Suspect Details"/>&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:20%;text-align:center;background-color:grey;color:white;" type="button" value="Reset"/>
+						<?php
+						include"connection.php";
+						$suspectid=$_POST['suspectid'];
+						if(!isset($suspectid))
+						{
+							header("location:viewsuspect.php");
+						}
+						$query=mysqli_query($con,"select * from details where id='$suspectid'");
+						$data=mysqli_fetch_array($query);
+						?>
+						<fieldset>
+						<legend><h1 style="text-transform:lowercase;text-decoration:underline;"><marquee>Add Offence for <?php echo $data['fullname']; ?></marquee></h1></legend>
+						<form action="addsuspectoffenceconfirm.php" method="post">
+						<input type="hidden" value="<?php echo $suspectid; ?>" name="detailsid" />
+						Enter the suspects offence<br/>
+						<textarea style="width:60%;text-align:center;" name="offence" placeholder="<?php echo $data['fullname']; ?>'s offence goes here" required></textarea><br/>
+						Enter the description of the offence stated above<br/>
+						<textarea style="width:60%;text-align:center;" name="description" placeholder="explain the nature or description of <?php echo $data['fullname']; ?>'s offence" required></textarea><br/>
+						Enter the date and time the offence was committed<br/>
+						<input type="text" style="width:60%;text-align:center;" name="offencedate" placeholder="the time <?php echo $data['fullname']; ?> committed the  offence goes here" required/><br/>
+						Enter the name of the reporter<br/>
+						<input type="text" style="width:60%;text-align:center;" name="reportername" placeholder="Reporter of the offence goes here" required/><br/>
+						Enter the reporters nationalid or passport number<br/>
+						<input type="text" style="width:60%;text-align:center;" name="reporterid" placeholder="Reporter's national id or passport number goes here" required/><br/><br/>
+						<input style="width:30%;text-align:center;background-color:green;color:white;" type="submit" value="Add Suspect Offence"/>&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:20%;text-align:center;background-color:grey;color:white;" type="button" value="Reset"/>
 						</form>
 						</fieldset>
-						</p>
-						<br/><br/><br/><br/>
+						</center>
+						<p>
                     </div>
                 </div>
                 <!-- /.row -->

@@ -66,10 +66,10 @@ if(!isset($_SESSION['ologin']))
                         <a href="officerhome.php"><i class="glyphicon glyphicon-thumbs-up"></i> Admin Home</a>
                     </li>
 					
-					<li class="active">
+					<li>
                         <a href="addsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> Add Suspect</a>
                     </li>
-					<li>
+					<li class="active">
                         <a href="viewsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> View Suspect(s)</a>
                     </li>
 					
@@ -87,37 +87,38 @@ if(!isset($_SESSION['ologin']))
         <div id="page-wrapper">
 
             <div class="container-fluid">
+
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
 						<p style="width:100%;">
 						<center>
-						<form action="addsuspectconfirm.php" method="post">
-						<fieldset style="width:80%;">
-						<legend><h1>Add Suspect Details</h1></legend>
+						<?php
+						include"connection.php";
+						$detailsid=$_POST['detailsid'];
+						$offence=$_POST['offence'];
+						$description=$_POST['description'];
+						$offencedate=$_POST['offencedate'];
+						$reportername=$_POST['reportername'];
+						$reporterid=$_POST['reporterid'];
+						if($detailsid && $offence && $description && $offencedate && $reportername && $reporterid)
+						{
+							$insert=mysqli_query($con,"insert into offence (detailsid,offence,description,offencedate,reportername,reporterid) values ('$detailsid','$offence','$description','$offencedate','$reportername','$reporterid')");
+							if($insert)
+							{
+								echo"<b style='color:green;'>You have successful added the offence to the suspect</b><br/><a href='viewoffences.php'>View Offence Page</a>";
+							}
+							else{
+								echo"<b style='color:red;'>You have not successful added the offence to the suspect due to technical or internet problems</b><br/><a href='viewsuspect.php'>Please Try Again</a>";
+							}
+						}
+						else
+						{
+							header("location:viewsuspect.php");
+						}
+						?>
+						</center>
 						<p>
-						<legend>Basic Suspect Details</legend>
-						<form action="addsuspectconfirm.php" method="post">
-						enter your full name<br/>
-						<input style="width:60%;text-align:center;" type="text" name="fullname" placeholder="Full name goes here" required/><br/>
-						enter your phone number<br/>
-						<input style="width:60%;text-align:center;" type="text" name="phonenumber" placeholder="phone number goes here" required/><br/>
-						enter your nationality goes here<br/>
-						<input style="width:60%;text-align:center;" type="text" name="nationality" placeholder="nationality goes here" required/><br/>
-						suspect image goes here<br/>
-						<input style="width:60%;text-align:center;" type="file" name="simage"/><br/>
-						Select suspect identifier<br/>
-						<select id="identifier" style="width:60%;text-align:center;"  name="suspectidentifier" required>
-						<option>Kenyan National Id</option>
-						<option>International Passport</option>
-						</select><br/>
-						Enter your identifier number<br>
-						<input style="width:60%;text-align:center;" type="text" name="identifierno" placeholder="identifier number goes here" required/><br/><br/>
-						<input style="width:30%;text-align:center;background-color:green;color:white;" type="submit" value="Add Suspect Details"/>&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:20%;text-align:center;background-color:grey;color:white;" type="button" value="Reset"/>
-						</form>
-						</fieldset>
-						</p>
-						<br/><br/><br/><br/>
                     </div>
                 </div>
                 <!-- /.row -->

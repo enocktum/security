@@ -66,14 +66,14 @@ if(!isset($_SESSION['ologin']))
                         <a href="officerhome.php"><i class="glyphicon glyphicon-thumbs-up"></i> Admin Home</a>
                     </li>
 					
-					<li class="active">
+					<li>
                         <a href="addsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> Add Suspect</a>
                     </li>
 					<li>
                         <a href="viewsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> View Suspect(s)</a>
                     </li>
 					
-					<li>
+					<li class="active">
                         <a href="viewoffences.php"><i class="glyphicon glyphicon-thumbs-down"></i> View Offence(s)</a>
                     </li>
 					<li>
@@ -87,37 +87,53 @@ if(!isset($_SESSION['ologin']))
         <div id="page-wrapper">
 
             <div class="container-fluid">
+
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
 						<p style="width:100%;">
-						<center>
-						<form action="addsuspectconfirm.php" method="post">
-						<fieldset style="width:80%;">
-						<legend><h1>Add Suspect Details</h1></legend>
+						<h1>Offence(s) Report</h1>
+						<?php
+						include"connection.php";
+						$query=mysqli_query($con,"select * from offence");
+						$num=mysqli_num_rows($query);
+						if($num>0)
+						{
+							echo"<table style='width:100%;' border='2'>
+							<tr>
+								<th>Offender</th>
+								<th>Offence</th>
+								<th>Description of Offence</th>
+								<th>Time of Offence</th>
+								<th>Reporter's Name</th>
+								<th>Reporter's ID</th>
+							</tr>
+							";
+							while($data=mysqli_fetch_array($query))
+							{
+								$detailsid=$data['detailsid'];
+								$namequery=mysqli_query($con,"select *  from details where id='$detailsid'");
+								$namedata=mysqli_fetch_array($namequery);
+								$offender=$namedata['fullname'];
+								echo"
+								<tr>
+									<td>".$offender."</td>
+									<td>".$data['offence']."</td>
+									<td>".$data['description']."</td>
+									<td>".$data['offencedate']."</td>
+									<td>".$data['reportername']."</td>
+									<td>".$data['reporterid']."</td>
+								</tr>
+								";
+							}
+							echo"</table>";
+						}
+						else
+						{
+							echo"Hooray!! The country seems safe!! There are no offence(s) in the system currently.";
+						}
+						?>
 						<p>
-						<legend>Basic Suspect Details</legend>
-						<form action="addsuspectconfirm.php" method="post">
-						enter your full name<br/>
-						<input style="width:60%;text-align:center;" type="text" name="fullname" placeholder="Full name goes here" required/><br/>
-						enter your phone number<br/>
-						<input style="width:60%;text-align:center;" type="text" name="phonenumber" placeholder="phone number goes here" required/><br/>
-						enter your nationality goes here<br/>
-						<input style="width:60%;text-align:center;" type="text" name="nationality" placeholder="nationality goes here" required/><br/>
-						suspect image goes here<br/>
-						<input style="width:60%;text-align:center;" type="file" name="simage"/><br/>
-						Select suspect identifier<br/>
-						<select id="identifier" style="width:60%;text-align:center;"  name="suspectidentifier" required>
-						<option>Kenyan National Id</option>
-						<option>International Passport</option>
-						</select><br/>
-						Enter your identifier number<br>
-						<input style="width:60%;text-align:center;" type="text" name="identifierno" placeholder="identifier number goes here" required/><br/><br/>
-						<input style="width:30%;text-align:center;background-color:green;color:white;" type="submit" value="Add Suspect Details"/>&nbsp;&nbsp;&nbsp;&nbsp;<input style="width:20%;text-align:center;background-color:grey;color:white;" type="button" value="Reset"/>
-						</form>
-						</fieldset>
-						</p>
-						<br/><br/><br/><br/>
                     </div>
                 </div>
                 <!-- /.row -->

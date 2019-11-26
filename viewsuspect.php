@@ -98,9 +98,8 @@ if(!isset($_SESSION['ologin']))
 						$num=mysqli_num_rows($query);
 						if($num>0)
 						{
-							echo"<table style='width:80%;' border='0'>
+							echo"<table style='width:100%;' border='0'>
 							<tr>
-								<th>#</th>
 								<th>Full Name</th>
 								<th>Phonenumber</th>
 								<th>Nationality</th>
@@ -116,7 +115,6 @@ if(!isset($_SESSION['ologin']))
 								$identi=$data['id'];
 								echo"
 								<tr>
-									<td>".$data['id']."</td>
 									<td>".$data['fullname']."</td>
 									<td>".$data['phonenumber']."</td>
 									<td>".$data['nationality']."</td>
