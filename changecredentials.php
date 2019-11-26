@@ -69,7 +69,7 @@ if(!isset($_SESSION['ologin']))
 					<li>
                         <a href="addsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> Add Suspect</a>
                     </li>
-					<li class="active">
+					<li>
                         <a href="viewsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> View Suspect(s)</a>
                     </li>
 					
@@ -93,73 +93,20 @@ if(!isset($_SESSION['ologin']))
                     <div class="col-lg-12">
 						<p style="width:100%">
 						<center>
-						<?php
-						include"connection.php";
-						$query=mysqli_query($con,"select * from details");
-						$num=mysqli_num_rows($query);
-						if($num>0)
-						{
-							echo"<table style='width:100%;' border='0'>
-							<tr>
-								<th>Full Name</th>
-								<th>Phonenumber</th>
-								<th>Nationality</th>
-								<th>Identifier</th>
-								<th>Identifier Number</th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</tr>
-							";
-							while($data=mysqli_fetch_array($query))
-							{
-								$identi=$data['id'];
-								echo"
-								<tr>
-									<td>".$data['fullname']."</td>
-									<td>".$data['phonenumber']."</td>
-									<td>".$data['nationality']."</td>
-									<td>".$data['identifier']."</td>
-									<td>".$data['identifiernumber']."</td>
-									<td>
-									<form action='editsuspect.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='edit' style='background-color:green;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='deletesuspect.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='delete' style='background-color:red;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='addsuspectoffence.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='add offence' style='background-color:blue;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='viewspecificoffence.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='View Offence(s)' style='background-color:purple;color:white;'/>
-									</form>
- 									</td>
-								</tr>
-								";
-							}
-							echo"</table><br/><br/>
-							<form action='printsuspects.php'>
-								<input type='submit' value='PRINT SUSPECTS' style='color:white;background-color:purple;width:50%;'/>
-							</form>
-							";
-						}
-						else
-						{
-							echo"there are no records in the database for now";
-						}
-						?>
+						<fieldset>
+						<legend><h1>admin modify login credentials</h1></legend>
+						<form action="changecredentialsconfirm.php" method="post">
+						enter your current username<br/>
+						<input style="width:50%;text-align:center;" type="text" name="currentusername" placeholder="current username goes here" required/><br/>
+						enter your current password<br/>
+						<input class="fa fa-fw fa-power-off" style="width:50%;text-align:center;" type="password" name="currentpassword" placeholder="current password goes here" required/><br/>
+						enter your desired username<br/>
+						<input style="width:50%;text-align:center;" type="text" name="desiredusername" placeholder="desired username goes here" required/><br/>
+						enter your desired password<br/>
+						<input style="width:50%;text-align:center;" type="password" name="desiredpassword" placeholder="desired password goes here" required/><br/><br/>
+						<input style="width:35%;text-align:center;color:white;background-color:purple;" type="submit" value="UPDATE PASSWORD AND USERNAME"/>
+						</form>
+						</fieldset>
 						</center>
 						<p>
                     </div>

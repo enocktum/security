@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 26, 2019 at 10:38 AM
+-- Generation Time: Nov 26, 2019 at 04:31 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.1.33
 
@@ -44,7 +44,8 @@ CREATE TABLE `details` (
 --
 
 INSERT INTO `details` (`id`, `identifier`, `fullname`, `identifiernumber`, `phonenumber`, `nationality`, `image`, `imagetype`) VALUES
-(3, 'International Passport', 'Allan Kipchumba', '123456789', '0701375762', 'United States of America', '', '');
+(6, 'Kenyan National Id', 'Allan Kipchumba', '44552252666', '0701375762', 'Kenyan', '', ''),
+(7, 'Kenyan National Id', 'Emmanuel Kiprotich', '45561111', '0728136428', 'Kenyan', '', '');
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,7 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id`, `username`, `password`) VALUES
-(1, 'secure', 'secure');
+(1, 'admin', 'admin123');
 
 -- --------------------------------------------------------
 
@@ -86,7 +87,7 @@ CREATE TABLE `offence` (
 --
 
 INSERT INTO `offence` (`id`, `detailsid`, `offence`, `description`, `offencedate`, `reportername`, `reporterid`) VALUES
-(1, '3', 'Robbery with violence', 'The suspect assaulted the shop owner and took money and other valuables after leaving him wounded', '20-11-2019 11.30.00', 'Rueben Kirui', '7654321');
+(5, '6', 'gsfgsgsgf', 'gsgsfg', '20-11-2019 11.30.00', 'Rueben Kirui', '7654321');
 
 --
 -- Indexes for dumped tables
@@ -118,7 +119,7 @@ ALTER TABLE `offence`
 -- AUTO_INCREMENT for table `details`
 --
 ALTER TABLE `details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `login`
@@ -130,7 +131,7 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `offence`
 --
 ALTER TABLE `offence`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

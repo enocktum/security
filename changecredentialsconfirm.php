@@ -69,7 +69,7 @@ if(!isset($_SESSION['ologin']))
 					<li>
                         <a href="addsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> Add Suspect</a>
                     </li>
-					<li class="active">
+					<li>
                         <a href="viewsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> View Suspect(s)</a>
                     </li>
 					
@@ -93,73 +93,46 @@ if(!isset($_SESSION['ologin']))
                     <div class="col-lg-12">
 						<p style="width:100%">
 						<center>
+						<fieldset>
+						<legend><h1>admin modify login credentials results</h1></legend>
 						<?php
 						include"connection.php";
-						$query=mysqli_query($con,"select * from details");
-						$num=mysqli_num_rows($query);
-						if($num>0)
+						$currentpassword=$_POST['currentpassword'];
+						$currentusername=$_POST['currentusername'];
+						$desiredpassword=$_POST['desiredpassword'];
+						$desiredusername=$_POST['desiredusername'];
+						if($currentpassword && $currentusername && $desiredpassword && $desiredusername)
 						{
-							echo"<table style='width:100%;' border='0'>
-							<tr>
-								<th>Full Name</th>
-								<th>Phonenumber</th>
-								<th>Nationality</th>
-								<th>Identifier</th>
-								<th>Identifier Number</th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</tr>
-							";
-							while($data=mysqli_fetch_array($query))
+							$query=mysqli_query($con,"select * from login where username='$currentusername' && password='$currentpassword'");
+							$ngapi=mysqli_num_rows($query);
+							if($ngapi>0)
 							{
-								$identi=$data['id'];
-								echo"
-								<tr>
-									<td>".$data['fullname']."</td>
-									<td>".$data['phonenumber']."</td>
-									<td>".$data['nationality']."</td>
-									<td>".$data['identifier']."</td>
-									<td>".$data['identifiernumber']."</td>
-									<td>
-									<form action='editsuspect.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='edit' style='background-color:green;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='deletesuspect.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='delete' style='background-color:red;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='addsuspectoffence.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='add offence' style='background-color:blue;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='viewspecificoffence.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='View Offence(s)' style='background-color:purple;color:white;'/>
-									</form>
- 									</td>
-								</tr>
-								";
+								$update=mysqli_query($con,"update login set username='$desiredusername',password='$desiredpassword' where id='1'");
+								if($update)
+								{
+									echo"<b style='color:green;'>Congratulations! you have successfully updated your username and password.Your new credentials are as follows:<br/>
+									Username: <u>$desiredusername</u><br/>
+									Password: <u>$desiredpassword</u><br/><br/>
+									You can choose to:<br/>
+									a. <a href='logout.php'>Logout from your portal</a><br/>
+									b. <a href='officerhome.php'>Go to admin home page</a><br/>
+									</b>
+									";
+								}
+								else{
+									echo"<b style='color:red;'>There was a technical error while updating your credentials<br/><a href='changecredentials.php'>Please Try Again</a></b>";
+								}
 							}
-							echo"</table><br/><br/>
-							<form action='printsuspects.php'>
-								<input type='submit' value='PRINT SUSPECTS' style='color:white;background-color:purple;width:50%;'/>
-							</form>
-							";
+							else{
+								echo"<b style='color:red;'>you have entered wrong current credentials<br/><a href='changecredentials.php'>Please Try Again</a></b>";
+							}
 						}
 						else
 						{
-							echo"there are no records in the database for now";
+							header("location:changecredentials.php");
 						}
 						?>
+						</fieldset>
 						</center>
 						<p>
                     </div>

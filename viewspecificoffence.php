@@ -69,11 +69,11 @@ if(!isset($_SESSION['ologin']))
 					<li>
                         <a href="addsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> Add Suspect</a>
                     </li>
-					<li class="active">
+					<li>
                         <a href="viewsuspect.php"><i class="glyphicon glyphicon-thumbs-up"></i> View Suspect(s)</a>
                     </li>
 					
-					<li>
+					<li class="active">
                         <a href="viewoffences.php"><i class="glyphicon glyphicon-thumbs-down"></i> View Offence(s)</a>
                     </li>
 					<li>
@@ -91,76 +91,58 @@ if(!isset($_SESSION['ologin']))
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
-						<p style="width:100%">
-						<center>
+						<p style="width:100%;">
 						<?php
+						$suspectid=$_POST['suspectid'];
+						if(!isset($suspectid))
+						{
+							header("location:viewsuspect.php");
+						}
+						else
+						{
 						include"connection.php";
-						$query=mysqli_query($con,"select * from details");
+						$query=mysqli_query($con,"select * from offence where detailsid='$suspectid'");
+						$dquery=mysqli_query($con,"select * from details where id='$suspectid'");
+						$ddata=mysqli_fetch_array($dquery);
+						echo"<h1 style='color:blue;text-transform:lowercase;'>suspect details for ".$ddata['fullname']."</h1>";
 						$num=mysqli_num_rows($query);
 						if($num>0)
 						{
-							echo"<table style='width:100%;' border='0'>
+							echo"<table style='width:100%;' border='2'>
 							<tr>
-								<th>Full Name</th>
-								<th>Phonenumber</th>
-								<th>Nationality</th>
-								<th>Identifier</th>
-								<th>Identifier Number</th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
+								<th>Offender</th>
+								<th>Offence</th>
+								<th>Description of Offence</th>
+								<th>Time of Offence</th>
+								<th>Reporter's Name</th>
+								<th>Reporter's ID</th>
 							</tr>
 							";
 							while($data=mysqli_fetch_array($query))
 							{
-								$identi=$data['id'];
+								$detailsid=$data['detailsid'];
+								$namequery=mysqli_query($con,"select *  from details where id='$detailsid'");
+								$namedata=mysqli_fetch_array($namequery);
+								$offender=$namedata['fullname'];
 								echo"
 								<tr>
-									<td>".$data['fullname']."</td>
-									<td>".$data['phonenumber']."</td>
-									<td>".$data['nationality']."</td>
-									<td>".$data['identifier']."</td>
-									<td>".$data['identifiernumber']."</td>
-									<td>
-									<form action='editsuspect.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='edit' style='background-color:green;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='deletesuspect.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='delete' style='background-color:red;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='addsuspectoffence.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='add offence' style='background-color:blue;color:white;'/>
-									</form>
- 									</td>
-									<td>
-									<form action='viewspecificoffence.php' method='post'>
-									<input type='hidden' name='suspectid' value='".$identi."'/>
-									<input type='submit' value='View Offence(s)' style='background-color:purple;color:white;'/>
-									</form>
- 									</td>
+									<td>".$offender."</td>
+									<td>".$data['offence']."</td>
+									<td>".$data['description']."</td>
+									<td>".$data['offencedate']."</td>
+									<td>".$data['reportername']."</td>
+									<td>".$data['reporterid']."</td>
 								</tr>
 								";
 							}
-							echo"</table><br/><br/>
-							<form action='printsuspects.php'>
-								<input type='submit' value='PRINT SUSPECTS' style='color:white;background-color:purple;width:50%;'/>
-							</form>
-							";
+							echo"</table>";
 						}
 						else
 						{
-							echo"there are no records in the database for now";
+							echo"There are no offence(s) for the suspect in the system currently.You can add the offence <a href='viewsuspect.php'>by clicking here</a>";
+						}
 						}
 						?>
-						</center>
 						<p>
                     </div>
                 </div>
